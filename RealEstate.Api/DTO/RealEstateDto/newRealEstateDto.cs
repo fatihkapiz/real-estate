@@ -12,6 +12,8 @@ namespace RealEstate.Api.DTO.RealEstateDto
         public int Size { get; set; }
         public string Title { get; set; }
 
+        public byte[,] Content { get; set; }
+
         public newRealEstateDto() { }
         public newRealEstateDto(int statusId, int typeId, int price, int size, int currencyId, string title)
         {
