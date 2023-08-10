@@ -1,4 +1,5 @@
 ﻿using RealEstate.Api.Entity;
+using System.Buffers.Text;
 
 namespace RealEstate.Api.DTO.RealEstateDto
 {
@@ -12,10 +13,10 @@ namespace RealEstate.Api.DTO.RealEstateDto
         public int Size { get; set; }
         public string Title { get; set; }
 
-        public byte[,] Content { get; set; }
+        public ICollection<string> Photos { get; set; } // List of base64-encoded image strings
 
         public newRealEstateDto() { }
-        public newRealEstateDto(int statusId, int typeId, int price, int size, int currencyId, string title)
+        public newRealEstateDto(int statusId, int typeId, int price, int size, int currencyId, string title, List<string> photos)
         {
             StatusId = statusId;
             TypeId = typeId;
@@ -23,6 +24,23 @@ namespace RealEstate.Api.DTO.RealEstateDto
             Size = size;
             CurrencyId = currencyId;
             Title = title;
+            Photos = photos;
+        }
+
+        public ICollection<Photo> stringToImg(ICollection<string> imgs)
+        {
+            List<Photo> imageList = new List<Photo>();
+            foreach (var image in imgs)
+            {
+                imageList.Add(new Photo
+                {
+                    Id = 0,
+                    RealEstateEntityId = this.Id,
+                    ImageData = image
+                }
+                );
+            }
+            return imageList;
         }
 
         public RealEstateEntity ToRealEstate()
@@ -35,7 +53,8 @@ namespace RealEstate.Api.DTO.RealEstateDto
                 Size = this.Size,
                 StatusId = this.StatusId,
                 CurrencyId = this.CurrencyId,
-                TypeId = this.TypeId
+                TypeId = this.TypeId,
+                Photos = stringToImg(this.Photos)
             };
         }
     }

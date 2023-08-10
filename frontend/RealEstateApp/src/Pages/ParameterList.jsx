@@ -6,7 +6,6 @@ export default function ParameterList({ list, parameter, field }) {
 
   const [itemList, setList] = useState([]);
   let token = localStorage.getItem("token");
-  // let authors = [];
   const navigate = useNavigate();
 
   useEffect(() => {

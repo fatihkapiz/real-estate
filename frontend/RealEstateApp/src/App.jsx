@@ -12,6 +12,9 @@ import { addType, getType, getTypeList } from './Services/TypeService';
 import { addStatus, getStatus, getStatusList } from './Services/StatusService';
 import ParameterList from './Pages/ParameterList';
 import AddRealEstate from './Pages/AddRealEstate';
+import ViewRealEstate from './Pages/ViewRealEstate';
+import ListRealEstates from './Pages/ListRealEstates';
+import RealEstateHomepage from './Pages/RealEstateHomepage';
 
 function App() {
   return (
@@ -22,10 +25,18 @@ function App() {
         </Route>
         <Route element={<Logged />}>
           <Route path="/" element={<HomePage />} />
-          <Route path="realestate" element={<AddRealEstate />}/>
+          <Route path="realestate" element={<RealEstateHomepage />}/>
+          <Route path="realestate/add" element={<AddRealEstate />}/>
+          <Route path="realestate/list" element={<ListRealEstates />}/>
+          <Route path="realestate/view" element={<ViewRealEstate />}/>
+
         </Route>
         <Route element={<LoggedAdmin />}>
-          <Route path="realestate" element={<AddRealEstate />}/>
+          <Route path="realestate" element={<RealEstateHomepage />}/>
+          <Route path="realestate/add" element={<AddRealEstate />}/>
+          <Route path="realestate/list" element={<ListRealEstates />}/>
+          <Route path="realestate/view" element={<ViewRealEstate />}/>
+
           <Route path="/admin/param" element={<AdminParameters />} />
           <Route path="admin/currency/list" element={<ParameterList list={getCurrencyList} parameter={"currency"} field={"currencySymbol"}/>} />
           <Route path="admin/currency/get" element={<AddParameter get={getCurrency} parameter={"currency"} />} />

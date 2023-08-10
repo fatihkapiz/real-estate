@@ -13,6 +13,8 @@ namespace RealEstate.Api.DTO.RealEstateDto
         public int StatusId { get; set; }
         public int TypeId { get; set; }
 
+        public ICollection<Photo> Photos { get; set; }
+
         public RealEstateDetailDto(RealEstateEntity item)
         {
             Id = item.Id;
@@ -22,6 +24,7 @@ namespace RealEstate.Api.DTO.RealEstateDto
             CurrencyId = item.CurrencyId;
             StatusId = item.StatusId;
             TypeId = item.TypeId;
+            Photos = item.Photos;
         }
     }
 }

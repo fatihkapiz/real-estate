@@ -6,6 +6,7 @@ using RealEstate.Api.DatabaseContext;
 using RealEstate.Api.DTO.RealEstateDto;
 using RealEstate.Api.Entity;
 using System.Data;
+using System.Xml;
 
 namespace RealEstate.Api.Controllers
 {
@@ -41,18 +42,75 @@ namespace RealEstate.Api.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var result = await _realEstateContext.RealEstateEntities.SingleOrDefaultAsync(x => x.Id == id);
-
             if (result != null)
-                return Ok(result);
+                return Ok(new RealEstateWithoutIdDto(result));
 
             return NotFound();
         }
 
+        [Authorize(Roles = UserRoles.User)]
+        [HttpGet]
+        [Route("getphotos")]
+        public async Task<IActionResult> GetPhotosById(int id)
+        {
+            var current = await _realEstateContext.RealEstateEntities.SingleOrDefaultAsync(x => x.Id == id);
+            var item = _realEstateContext.Photos.Where(x => x.RealEstateEntityId == current.Id).ToList();
+            if (item != null)
+                return Ok(new PhotoDto(item));
+
+            return NotFound();
+        }
+
+        [Authorize(Roles = UserRoles.User)]
+        [HttpGet]
+        [Route("getcurrency")]
+        public async Task<IActionResult> GetCurrencyOfEstate(int id)
+        {
+            var current = await _realEstateContext.RealEstateEntities.SingleOrDefaultAsync(x => x.Id == id);
+            var item = _realEstateContext.Currencies.SingleOrDefault(x => x.Id == current.CurrencyId).CurrencySymbol;
+            if (item != null)
+                return Ok(item);
+
+            return NotFound();
+        }
+
+        [Authorize(Roles = UserRoles.User)]
+        [HttpGet]
+        [Route("getstatus")]
+        public async Task<IActionResult> GetStatusofEstate(int id)
+        {
+            var current = await _realEstateContext.RealEstateEntities.SingleOrDefaultAsync(x => x.Id == id);
+            var item = _realEstateContext.EstateStatuses.SingleOrDefault(x => x.Id == current.StatusId).Status;
+            if (item != null)
+                return Ok(item);
+
+            return NotFound();
+        }
+
+        [Authorize(Roles = UserRoles.User)]
+        [HttpGet]
+        [Route("gettype")]
+        public async Task<IActionResult> GetTypeOfEstate(int id)
+        {
+            var current = await _realEstateContext.RealEstateEntities.SingleOrDefaultAsync(x => x.Id == id);
+            var tip = _realEstateContext.EstateTypes.SingleOrDefault(x => x.Id == current.TypeId).Type;
+            if (tip != null)
+                return Ok(tip);
+
+            return NotFound();
+        }
 
         [Authorize(Roles = UserRoles.Admin)]
         [HttpPost]
         public async Task<IActionResult> Post([FromBody] newRealEstateDto request)
         {
+            // check if any images are uploaded
+            /*
+            if (request.Images == null || request.Images.Count == 0)
+            {
+                return BadRequest("At least one image is required.");
+            }
+            */
             var item = _realEstateContext.RealEstateEntities.Add(request.ToRealEstate());
             await _realEstateContext.SaveChangesAsync();
 

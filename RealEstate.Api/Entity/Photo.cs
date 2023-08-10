@@ -2,11 +2,11 @@
 
 namespace RealEstate.Api.Entity
 {
-    public class Image : BaseEntity
+    public class Photo : BaseEntity
     {
-        public byte[] ImageData { get; set; }
-        public int RealEstateEntityId { get; set; }
+        public string ImageData { get; set; }
 
+        public int RealEstateEntityId { get; set; }
         public RealEstateEntity RealEstateEntity { get; set; }
     }
 }

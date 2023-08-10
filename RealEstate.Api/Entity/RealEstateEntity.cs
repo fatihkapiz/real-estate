@@ -12,7 +12,7 @@ namespace RealEstate.Api.Entity
         public int StatusId { get; set; }
         public int TypeId { get; set; }
 
-        public ICollection<Image> Images { get; set; }
+        public ICollection<Photo> Photos { get; set; }
 
         public Currency Currency { get; set; }
         public EstateStatus Status { get; set; }

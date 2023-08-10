@@ -72,7 +72,7 @@ namespace RealEstate.Api.Migrations
                     b.ToTable("EstateTypes");
                 });
 
-            modelBuilder.Entity("RealEstate.Api.Entity.Image", b =>
+            modelBuilder.Entity("RealEstate.Api.Entity.Photo", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -80,9 +80,9 @@ namespace RealEstate.Api.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<byte[]>("ImageData")
+                    b.Property<string>("ImageData")
                         .IsRequired()
-                        .HasColumnType("varbinary(max)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<int>("RealEstateEntityId")
                         .HasColumnType("int");
@@ -91,7 +91,7 @@ namespace RealEstate.Api.Migrations
 
                     b.HasIndex("RealEstateEntityId");
 
-                    b.ToTable("Image");
+                    b.ToTable("Photos");
                 });
 
             modelBuilder.Entity("RealEstate.Api.Entity.RealEstateEntity", b =>
@@ -132,10 +132,10 @@ namespace RealEstate.Api.Migrations
                     b.ToTable("RealEstateEntities");
                 });
 
-            modelBuilder.Entity("RealEstate.Api.Entity.Image", b =>
+            modelBuilder.Entity("RealEstate.Api.Entity.Photo", b =>
                 {
                     b.HasOne("RealEstate.Api.Entity.RealEstateEntity", "RealEstateEntity")
-                        .WithMany("Images")
+                        .WithMany("Photos")
                         .HasForeignKey("RealEstateEntityId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -187,7 +187,7 @@ namespace RealEstate.Api.Migrations
 
             modelBuilder.Entity("RealEstate.Api.Entity.RealEstateEntity", b =>
                 {
-                    b.Navigation("Images");
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }

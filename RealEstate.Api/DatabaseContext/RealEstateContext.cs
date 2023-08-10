@@ -9,6 +9,7 @@ namespace RealEstate.Api.DatabaseContext
         public DbSet<EstateType> EstateTypes { get; set; }
         public DbSet<EstateStatus> EstateStatuses { get; set; }
         public DbSet<RealEstateEntity> RealEstateEntities { get; set; }
+        public DbSet<Photo> Photos { get; set; }
 
         public RealEstateContext(DbContextOptions<RealEstateContext> opt) : base(opt)
         {

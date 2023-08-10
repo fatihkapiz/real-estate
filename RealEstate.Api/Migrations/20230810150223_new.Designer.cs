@@ -11,8 +11,8 @@ using RealEstate.Api.DatabaseContext;
 namespace RealEstate.Api.Migrations
 {
     [DbContext(typeof(RealEstateContext))]
-    [Migration("20230808181911_init")]
-    partial class init
+    [Migration("20230810150223_new")]
+    partial class @new
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -75,6 +75,28 @@ namespace RealEstate.Api.Migrations
                     b.ToTable("EstateTypes");
                 });
 
+            modelBuilder.Entity("RealEstate.Api.Entity.Photo", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ImageData")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RealEstateEntityId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RealEstateEntityId");
+
+                    b.ToTable("Photos");
+                });
+
             modelBuilder.Entity("RealEstate.Api.Entity.RealEstateEntity", b =>
                 {
                     b.Property<int>("Id")
@@ -113,22 +135,33 @@ namespace RealEstate.Api.Migrations
                     b.ToTable("RealEstateEntities");
                 });
 
+            modelBuilder.Entity("RealEstate.Api.Entity.Photo", b =>
+                {
+                    b.HasOne("RealEstate.Api.Entity.RealEstateEntity", "RealEstateEntity")
+                        .WithMany("Photos")
+                        .HasForeignKey("RealEstateEntityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("RealEstateEntity");
+                });
+
             modelBuilder.Entity("RealEstate.Api.Entity.RealEstateEntity", b =>
                 {
                     b.HasOne("RealEstate.Api.Entity.Currency", "Currency")
-                        .WithMany()
+                        .WithMany("RealEstateEntities")
                         .HasForeignKey("CurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RealEstate.Api.Entity.EstateStatus", "Status")
-                        .WithMany()
+                        .WithMany("RealEstateEntities")
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("RealEstate.Api.Entity.EstateType", "Type")
-                        .WithMany()
+                        .WithMany("RealEstateEntities")
                         .HasForeignKey("TypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -138,6 +171,26 @@ namespace RealEstate.Api.Migrations
                     b.Navigation("Status");
 
                     b.Navigation("Type");
+                });
+
+            modelBuilder.Entity("RealEstate.Api.Entity.Currency", b =>
+                {
+                    b.Navigation("RealEstateEntities");
+                });
+
+            modelBuilder.Entity("RealEstate.Api.Entity.EstateStatus", b =>
+                {
+                    b.Navigation("RealEstateEntities");
+                });
+
+            modelBuilder.Entity("RealEstate.Api.Entity.EstateType", b =>
+                {
+                    b.Navigation("RealEstateEntities");
+                });
+
+            modelBuilder.Entity("RealEstate.Api.Entity.RealEstateEntity", b =>
+                {
+                    b.Navigation("Photos");
                 });
 #pragma warning restore 612, 618
         }
