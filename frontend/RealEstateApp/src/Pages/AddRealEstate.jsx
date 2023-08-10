@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 
-function RealEstateForm() {
+function AddRealEstate() {
     const [title, setTitle] = useState('');
     const [images, setImages] = useState([]);
     
@@ -40,4 +40,4 @@ function RealEstateForm() {
     );
 }
 
-export default RealEstateForm;
+export default AddRealEstate;
