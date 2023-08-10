@@ -6,8 +6,6 @@ namespace RealEstate.Api.DatabaseContext
 {
     public class RealEstateIdentityContext : IdentityDbContext<IdentityUser>
     {
-        public RealEstateIdentityContext() { }
-
         public RealEstateIdentityContext(DbContextOptions<RealEstateIdentityContext> options) : base(options)
         {
 

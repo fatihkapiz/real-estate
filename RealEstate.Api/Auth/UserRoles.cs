@@ -1,4 +1,4 @@
-﻿namespace LibraryApp.Api.Auth
+﻿namespace RealEstate.Api.Auth
 {
     public static class UserRoles
     {
